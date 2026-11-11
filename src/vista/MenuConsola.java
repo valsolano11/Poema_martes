@@ -42,47 +42,51 @@ public class MenuConsola {
      */
     public void iniciar() {
         int opcion;
-        do {
-            mostrarOpciones();
-            try {
-                opcion = teclado.nextInt();
-            } catch (InputMismatchException e) {
-                opcion = -1; // valor inválido para que caiga en el default
-            } finally {
-                teclado.nextLine(); // limpia lo que quedó escrito en la consola
-            }
+        try {
+            do {
+                mostrarOpciones();
+                try {
+                    opcion = teclado.nextInt();
+                } catch (InputMismatchException e) {
+                    opcion = -1; // valor inválido para que caiga en el default
+                } finally {
+                    teclado.nextLine(); // limpia lo que quedó escrito en la consola
+                }
 
-            switch (opcion) {
-                case 1:
-                    mostrarPalabras();
-                    break;
-                case 2:
-                    consultarPorPosicion();
-                    break;
-                case 3:
-                    buscarPalabra();
-                    break;
-                case 4:
-                    validarLongitud();
-                    break;
-                case 5:
-                    abrirArchivoInexistente();
-                    break;
-                case 6:
-                    probarErrorCargaPoema();
-                    break;
-                case 7:
-                    probarPosicionInvalida();
-                    break;
-                case OPCION_SALIR:
-                    System.out.println("Programa finalizado. ¡Hasta luego!");
-                    break;
-                default:
-                    System.out.println("Opción no válida. Escriba un número del 1 al 8.");
-            }
-        } while (opcion != OPCION_SALIR);
-
-        teclado.close();
+                switch (opcion) {
+                    case 1:
+                        mostrarPalabras();
+                        break;
+                    case 2:
+                        consultarPorPosicion();
+                        break;
+                    case 3:
+                        buscarPalabra();
+                        break;
+                    case 4:
+                        validarLongitud();
+                        break;
+                    case 5:
+                        abrirArchivoInexistente();
+                        break;
+                    case 6:
+                        probarErrorCargaPoema();
+                        break;
+                    case 7:
+                        probarPosicionInvalida();
+                        break;
+                    case OPCION_SALIR:
+                        System.out.println("Programa finalizado. ¡Hasta luego!");
+                        break;
+                    default:
+                        System.out.println("Opción no válida. Escriba un número del 1 al 8.");
+                }
+            } while (opcion != OPCION_SALIR);
+        } finally {
+            // Profesor, como en el ejemplo visto en clase, el finally se usa
+            // para liberar recursos: el Scanner se cierra siempre al salir.
+            teclado.close();
+        }
     }
 
     private void mostrarOpciones() {

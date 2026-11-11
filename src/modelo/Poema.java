@@ -49,21 +49,16 @@ public class Poema {
      * @throws IOException si ocurre otro error de lectura
      */
     public String leerArchivo(String ruta) throws FileNotFoundException, IOException {
-        BufferedReader lector = null;
         String contenido = "";
-        try {
-            // Se indica UTF-8 para que las tildes (días, móviles...) se lean bien
-            lector = new BufferedReader(new FileReader(ruta, StandardCharsets.UTF_8));
-            String linea = lector.readLine();
-            while (linea != null) {
+
+        // Igual que en los ejemplos de clase se usa try-with-resources:
+        // el BufferedReader se cierra solo al terminar, haya error o no.
+        // Se indica UTF-8 para que las tildes (días, móviles...) se lean bien en Windows.
+        try (BufferedReader br = new BufferedReader(new FileReader(ruta, StandardCharsets.UTF_8))) {
+            String linea;
+            // readLine() devuelve null cuando ya no hay más líneas en el archivo
+            while ((linea = br.readLine()) != null) {
                 contenido = contenido + linea + " "; // el espacio separa la última palabra de cada verso
-                linea = lector.readLine();
-            }
-        } finally {
-            // Profesor, aquí el finally garantiza que el archivo se cierre
-            // siempre, tanto si la lectura termina bien como si ocurre un error.
-            if (lector != null) {
-                lector.close();
             }
         }
         return contenido;
@@ -104,12 +99,14 @@ public class Poema {
         // 1. Limpiar los signos de puntuación (comas y puntos)
         String textoLimpio = texto.replace(",", "").replace(".", "");
 
-        // 2. Separar el texto por espacios. Este arreglo es solo auxiliar,
+        // 2. Separar el texto por espacios, igual que en el ejemplo del CSV
+        //    donde se separaba por comas. Este arreglo es solo auxiliar,
         //    se usa para poder contar las palabras antes de crear el vector.
-        String[] separadas = textoLimpio.trim().split("\\s+");
+        String divisor = " ";
+        String[] separadas = textoLimpio.trim().split(divisor);
 
-        // 3. Contar cuántas palabras hay (se ignoran posibles cadenas vacías,
-        //    por ejemplo si el archivo estuviera vacío)
+        // 3. Contar cuántas palabras hay (se ignoran cadenas vacías, que
+        //    aparecerían si hubiera dos espacios seguidos o el archivo estuviera vacío)
         int totalPalabras = 0;
         for (int i = 0; i < separadas.length; i++) {
             if (!separadas[i].isEmpty()) {

@@ -1,7 +1,7 @@
 # Actividad Evaluativa: Manejo de Archivos y Excepciones en Java
 
 **Autora:** Valentina Solano
-**Asignatura:** Programación Orientada a Objetos / Java
+**Asignatura:** Construccion/ Java
 
 Aplicación de consola que lee la primera estrofa de *Canción de la vida profunda* (Porfirio Barba Jacob)
 desde `poema.txt`, limpia comas y puntos, cuenta las palabras (**37**) y las guarda en un vector
